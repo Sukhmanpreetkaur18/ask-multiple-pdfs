@@ -34,6 +34,8 @@ Step 1 — Clone Repository
 
  cd ask-multiple-pdfs
 
+ Install Python 3.10 or 3.11 only
+
 Step 2 — Create Virtual Environment
 python -m venv venv
 venv\Scripts\activate
