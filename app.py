@@ -48,8 +48,8 @@ def get_all_text(uploaded_files):
 def get_text_chunks(text):
     text_splitter = CharacterTextSplitter(
         separator="\n",
-        chunk_size=500,
-        chunk_overlap=100,
+        chunk_size=200,
+        chunk_overlap=20,
         length_function=len
     )
     return text_splitter.split_text(text)
@@ -76,7 +76,7 @@ def get_vectorstore(text_chunks):
 # -------------------------------
 def ask_llm(vectorstore, question):
 
-    docs = vectorstore.similarity_search(question, k=3)
+    docs = vectorstore.similarity_search(question, k=2)
     context = "\n\n".join([doc.page_content for doc in docs]) if docs else "No context found."
 
     prompt = f"""
@@ -95,7 +95,9 @@ Answer in 5 lines maximum:
 
     llm = OllamaLLM(
         model="phi3:mini",
-        temperature=0
+        temperature=0,
+        num_ctx=256,
+        num_predict=80
     )
 
     return llm.invoke(prompt)
